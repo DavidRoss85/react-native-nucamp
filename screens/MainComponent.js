@@ -2,7 +2,6 @@ import { Platform, View } from 'react-native';
 import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Text } from 'react-native-elements';
 
 import HomeScreen from './HomeScreen';
 import CampsiteInfoScreen from "./CampsiteInfoScreen";
@@ -21,7 +20,7 @@ const HomeNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen 
-                name= 'Home'
+                name= 'HomePage'
                 component = {HomeScreen}
                 options={{title: 'Home'}}
             />
@@ -34,7 +33,7 @@ const DirectoryNavigator = () => {
 
     return (
         <Stack.Navigator
-            initialRouteName='Directory'
+            initialRouteName='DirectoryPage'
             screenOptions={screenOptions}
         >
             <Stack.Screen
