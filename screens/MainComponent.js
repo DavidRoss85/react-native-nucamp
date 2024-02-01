@@ -2,6 +2,7 @@ import { Platform, View } from 'react-native';
 import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Text } from 'react-native-elements';
 
 import HomeScreen from './HomeScreen';
 import CampsiteInfoScreen from "./CampsiteInfoScreen";
