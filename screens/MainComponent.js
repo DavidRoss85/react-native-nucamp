@@ -3,6 +3,13 @@ import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { Icon } from 'react-native-elements';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+
+import { fetchPartners } from '../features/partners/partnersSlice';
+import { fetchCampsites } from '../features/campsites/campsitesSlice';
+import { fetchPromotions } from '../features/promotions/promotionsSlice';
+import { fetchComments } from '../features/comments/commentsSlice';
 
 import HomeScreen from './HomeScreen';
 import CampsiteInfoScreen from "./CampsiteInfoScreen";
@@ -142,7 +149,7 @@ const DirectoryNavigator = () => {
 }
 
 const CustomDrawerContent = (props) => {
-    
+
     return (
         <DrawerContentScrollView {...props}>
             <View style={styles.drawerHeader}>
@@ -158,6 +165,16 @@ const CustomDrawerContent = (props) => {
     )
 }
 const Main = () => {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCampsites());
+        dispatch(fetchPromotions());
+        dispatch(fetchPartners());
+        dispatch(fetchComments());
+    }, [dispatch]);
+
     return (
         <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}>
             <Drawer.Navigator
