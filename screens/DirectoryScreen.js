@@ -1,5 +1,5 @@
 import { FlatList } from 'react-native';
-import { Avatar, ListItem } from 'react-native-elements';
+import { View, Text } from 'react-native-elements';
 import { Tile } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';

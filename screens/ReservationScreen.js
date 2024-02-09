@@ -44,7 +44,7 @@ const ReservationScreen = () =>{
                 </Picker>
             </View>
             <View style={styles.formRow}>
-                <Text style={style.formLabel}>Hike In?</Text>
+                <Text style={styles.formLabel}>Hike In?</Text>
                 <Switch
                     style={styles.formItem}
                     value={hikeIn}
