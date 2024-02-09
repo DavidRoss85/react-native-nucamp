@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Text, View, ScrollView, StyleSheet, Switch, Button, Modal } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
 
 const ReservationScreen = () =>{
 
@@ -13,8 +14,10 @@ const ReservationScreen = () =>{
 
     const onDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
-        setShowCalendar(Platform.OS === 'ios');
+        setShowCalendar(Platform.OS==='ios');
         setDate(currentDate);
+        
+            
     };
 
     const handleReservation = () => {
