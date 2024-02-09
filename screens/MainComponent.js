@@ -16,6 +16,7 @@ import CampsiteInfoScreen from "./CampsiteInfoScreen";
 import DirectoryScreen from './DirectoryScreen';
 import AboutScreen from './AboutScreen';
 import ContactScreen from './ContactScreen';
+import ReservationScreen from './ReservationScreen';
 import logo from '../assets/images/logo.png'
 
 const Drawer = createDrawerNavigator();
@@ -48,6 +49,42 @@ const HomeNavigator = () => {
                             />
                         )
                     }
+                })}
+            />
+        </Stack.Navigator>
+    )
+}
+
+const DirectoryNavigator = () => {
+    const Stack = createStackNavigator();
+
+    return (
+        <Stack.Navigator
+            initialRouteName='DirectoryPage'
+            screenOptions={screenOptions}
+        >
+            <Stack.Screen
+                name='DirectoryPage'
+                component={DirectoryScreen}
+                options={({ navigation }) => ({
+                    title: 'Directory',
+                    headerLeft: () => {
+                        return (
+                            <Icon
+                                name='list'
+                                type='font-awesome'
+                                iconStyle={styles.stackIcon}
+                                onPress={() => navigation.toggleDrawer()}
+                            />
+                        )
+                    }
+                })}
+            />
+            <Stack.Screen
+                name='CampsiteInfo'
+                component={CampsiteInfoScreen}
+                options={({ route }) => ({
+                    title: route.params.campsite.name
                 })}
             />
         </Stack.Navigator>
@@ -112,36 +149,29 @@ const ContactNavigator = () => {
     )
 }
 
-const DirectoryNavigator = () => {
+const ReservationNavigator = () => {
     const Stack = createStackNavigator();
 
     return (
         <Stack.Navigator
-            initialRouteName='DirectoryPage'
+            initialRouteName='ReservationPage'
             screenOptions={screenOptions}
         >
             <Stack.Screen
-                name='DirectoryPage'
-                component={DirectoryScreen}
+                name='ReservationPage'
+                component={ReservationScreen}
                 options={({ navigation }) => ({
-                    title: 'Directory',
+                    title: 'Reservation Search',
                     headerLeft: () => {
                         return (
                             <Icon
-                                name='list'
+                                name='tree'
                                 type='font-awesome'
                                 iconStyle={styles.stackIcon}
                                 onPress={() => navigation.toggleDrawer()}
                             />
                         )
                     }
-                })}
-            />
-            <Stack.Screen
-                name='CampsiteInfo'
-                component={CampsiteInfoScreen}
-                options={({ route }) => ({
-                    title: route.params.campsite.name
                 })}
             />
         </Stack.Navigator>
@@ -209,6 +239,24 @@ const Main = () => {
                             return (
                                 <Icon
                                     name='list'
+                                    type='font-awesome'
+                                    size={24}
+                                    iconStyle={{ width: 24 }}
+                                    color={color}
+                                />
+                            )
+                        }
+                    }}
+                />
+                <Drawer.Screen
+                    name='ReserveCampsite'
+                    component={ReservationNavigator}
+                    options={{
+                        title: 'Reserve Campsite',
+                        drawerIcon: ({ color }) => {
+                            return (
+                                <Icon
+                                    name='tree'
                                     type='font-awesome'
                                     size={24}
                                     iconStyle={{ width: 24 }}
