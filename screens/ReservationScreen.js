@@ -15,9 +15,7 @@ const ReservationScreen = () =>{
     const onDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShowCalendar(Platform.OS==='ios');
-        setDate(currentDate);
-        
-            
+        setDate(currentDate);        
     };
 
     const handleReservation = () => {
