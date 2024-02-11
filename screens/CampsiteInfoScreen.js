@@ -2,21 +2,47 @@ import { FlatList, StyleSheet, Text, View, Button, Modal } from 'react-native';
 import RenderCampsite from '../features/campsites/RenderCampsite';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../features/favorites/favoritesSlice';
-import  { useState} from 'react';
+import { useState } from 'react';
+import { Input, Rating } from 'react-native-elements';
 
 const CampsiteInfoScreen = ({ route }) => {
     const { campsite } = route.params;
     const comments = useSelector((state) => state.comments);
     const favorites = useSelector((state) => state.favorites);
     const [showModal, setShowModal] = useState(false);
+    const [rating, setRating] = useState(5);
+    const [author, setAuthor] = useState('');
+    const [text, setText] = useState('');
 
     const dispatch = useDispatch();
+
+    const handleSubmit = () => {
+        const newComment = {
+            author,
+            rating,
+            text,
+            campsiteId: campsite.id
+        };
+        console.log(newComment);
+        setShowModal(!showModal);
+    };
+
+    const resetForm = () => {
+        setAuthor('')
+        setRating(5)
+        setText('')
+    };
 
     const renderCommentItem = ({ item }) => {
         return (
             <View style={StyleSheet.commentItem}>
                 <Text style={{ fontSize: 14 }}>{item.text}</Text>
-                <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text>
+                <Rating
+                    startingValue={item.rating}
+                    imageSize={10}
+                    style={{alignItems:'flex-start', paddingVertical: '5%'}}
+                    readOnly
+                />
                 <Text style={{ fontSize: 12 }}>{`--${item.author}`}</Text>
             </View>
         )
@@ -52,7 +78,38 @@ const CampsiteInfoScreen = ({ route }) => {
                 onRequestClose={() => setShowModal(!showModal)}
             >
                 <View style={styles.modal}>
+                    <Rating
+                        showRating
+                        startingValue={rating}
+                        imageSize={40}
+                        onFinishRating={(rating) => setRating(rating)}
+                        style={{ paddingVertical: 10 }}
+                    />
+                    <Input 
+                        placeholder='Name'
+                        leftIcon={'user-o'}
+                        leftIconContainerStyle={{paddingRight:10}}
+                        onChangeText={(text) => setAuthor(text)}
+                        value={''}
+                    />
+                    <Input 
+                        placeholder='Comment'
+                        leftIcon={'comment-o'}
+                        leftIconContainerStyle={{paddingRight:10}}
+                        onChangeText={(text) => setText(text)}
+                        value={''}
+                    />
                     <View style={{margin:10}}>
+                        <Button 
+                            title={'Submit'}
+                            color={'#5637DD'}
+                            onPress={()=>{
+                                handleSubmit();
+                                resetForm();
+                            }}
+                        />
+                    </View>
+                    <View style={{ margin: 10 }}>
                         <Button
                             onPress={() => {
                                 setShowModal(!showModal);
@@ -60,10 +117,10 @@ const CampsiteInfoScreen = ({ route }) => {
                             }}
                             color='#808080'
                             title='Cancel'
-                        />           
+                        />
                     </View>
                 </View>
-            </Modal>          
+            </Modal>
         </>
     )
 };
@@ -83,7 +140,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: '#fff'
     },
-    modal:{
+    modal: {
         justifyContent: 'center',
         margin: 20
     }
