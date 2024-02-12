@@ -42,8 +42,8 @@ const CampsiteInfoScreen = ({ route }) => {
                 <Rating
                     startingValue={item.rating}
                     imageSize={10}
-                    style={{alignItems:'flex-start', paddingVertical: '5%'}}
-                    readOnly
+                    style={{ alignItems: 'flex-start', paddingVertical: '5%' }}
+
                 />
                 <Text style={{ fontSize: 12 }}>{`--${item.author}`}</Text>
             </View>
@@ -87,25 +87,25 @@ const CampsiteInfoScreen = ({ route }) => {
                         onFinishRating={(rating) => setRating(rating)}
                         style={{ paddingVertical: 10 }}
                     />
-                    <Input 
+                    <Input
                         placeholder='Name'
-                        leftIcon={'user-o'}
-                        leftIconContainerStyle={{paddingRight:10}}
+                        leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                        leftIconContainerStyle={{ paddingRight: 10 }}
                         onChangeText={(text) => setAuthor(text)}
-                        value={''}
+                        value={author}
                     />
-                    <Input 
+                    <Input
                         placeholder='Comment'
-                        leftIcon={'comment-o'}
-                        leftIconContainerStyle={{paddingRight:10}}
+                        leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
+                        leftIconContainerStyle={{ paddingRight: 10 }}
                         onChangeText={(text) => setText(text)}
-                        value={''}
+                        value={text}
                     />
-                    <View style={{margin:10}}>
-                        <Button 
+                    <View style={{ margin: 10 }}>
+                        <Button
                             title={'Submit'}
                             color={'#5637DD'}
-                            onPress={()=>{
+                            onPress={() => {
                                 handleSubmit();
                                 resetForm();
                             }}

@@ -32,7 +32,7 @@ const RenderCampsite = (props) => {
                         }
                     />
                     <Icon
-                        name={props.isFavorite ? 'pencil' : 'heart-o'}
+                        name={'pencil'}
                         type='font-awesome'
                         color='#5637DD'
                         raised
