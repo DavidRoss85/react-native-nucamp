@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { View, FlatList, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { toggleFavorite } from '../features/favorites/favoritesSlice';
 import { Avatar, ListItem } from 'react-native-elements';
@@ -19,14 +19,42 @@ const FavoritesScreen = ({ navigation }) => {
                 <View style={styles.swipeView}>
                     <TouchableOpacity
                         style={styles.greenTouchable}
-                        onPress={() => dispatch(toggleFavorite(campsite.id))}
+                        onPress={() => Alert.alert(
+                            'Test',
+                            'This button doesn\'t do much...',
+                            [
+                                {
+                                    text:'[Close]'
+                                },
+                                {
+                                    text: '[See another prompt]',
+                                    onPress: ()=> Alert.alert('Alert','A prompt after a prompt!',[{text:'Please no more...'}])
+                                },
+                                {
+                                    text: '[Random button]',
+                                    onPress:()=>Alert.alert('Alert','So Random')
+                                }
+                            ]
+                        )}
                     >
                         <Text style={styles.deleteText}>Green</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style ={styles.whiteTouchable}/> 
                     <TouchableOpacity
                         style={styles.deleteTouchable}
-                        onPress={() => dispatch(toggleFavorite(campsite.id))}
+                        onPress={() => Alert.alert(
+                            'Delete',
+                            `Are you sure you want to remove ${campsite.name} from your favorites?`,
+                            [
+                                {
+                                    text:'No'
+                                },
+                                {
+                                    text: 'Yes',
+                                    onPress: ()=> dispatch(toggleFavorite(campsite.id))
+                                }
+                            ]
+                        )}
                     >
                         <Text style={styles.deleteText}>Delete</Text>
                     </TouchableOpacity>                       
