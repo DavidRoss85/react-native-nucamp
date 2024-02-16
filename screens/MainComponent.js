@@ -184,7 +184,7 @@ const FavoritesNavigator = () => {
     return (
         <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen
-                name='Favorites'
+                name='FavoritesPage'
                 component={FavoritesScreen}
                 options={({ navigation }) => ({
                     title: 'Favorite Campsites',
