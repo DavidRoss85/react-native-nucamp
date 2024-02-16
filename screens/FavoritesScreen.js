@@ -15,14 +15,21 @@ const FavoritesScreen = ({ navigation }) => {
 
     const renderFavoriteItem = ({ item: campsite }) => {
         return (
-            <SwipeRow rightOpenValue={-100}>
-                <View style={styles.deleteView}>
+            <SwipeRow leftOpenValue={100} rightOpenValue={-100}>
+                <View style={styles.swipeView}>
+                    <TouchableOpacity
+                        style={styles.greenTouchable}
+                        onPress={() => dispatch(toggleFavorite(campsite.id))}
+                    >
+                        <Text style={styles.deleteText}>Green</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style ={styles.whiteTouchable}/> 
                     <TouchableOpacity
                         style={styles.deleteTouchable}
                         onPress={() => dispatch(toggleFavorite(campsite.id))}
                     >
                         <Text style={styles.deleteText}>Delete</Text>
-                    </TouchableOpacity>            
+                    </TouchableOpacity>                       
                 </View>
                 <View>
                     <ListItem
@@ -74,16 +81,45 @@ const FavoritesScreen = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    swipeView: {
+        flexDirection:'row',
+        flex:1
+    },
     deleteView: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
         flex: 1
     },
+    greenView: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flex: 1
+    },
+    whiteTouchable:{
+        backgroundColor: 'white',
+        height: '100%',        
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flex: 2
+    },
+    greenTouchable: {
+        backgroundColor: 'green',
+        height: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flex: 1
+    },
     deleteTouchable: {
         backgroundColor: 'red',
         height: '100%',
-        justifyContent: 'center'
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        flex: 1
     },
     deleteText: {
         color: 'white',
