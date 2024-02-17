@@ -3,6 +3,8 @@ import { Text, View, ScrollView, Animated } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import * as Animatable from 'react-native-animatable';
+
 import Loading from '../components/LoadingComponent';
 
 const FeaturedItem = (props) => {
@@ -22,7 +24,11 @@ const FeaturedItem = (props) => {
     }, [isLoading]);
 
     if (isLoading) {
-        return <Loading />;
+        return (
+            <Animatable.View animation={'pulse'} iterationCount={'infinite'}>
+                <Loading />
+            </Animatable.View>
+        );
     }
 
     if (errMess) {
