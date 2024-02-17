@@ -1,18 +1,31 @@
 import { useEffect, useRef } from 'react';
-import { Text, View, Animated } from 'react-native';
+import { Text, View, ScrollView, Animated } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import Loading from '../components/LoadingComponent';
 
 const FeaturedItem = (props) => {
-    const { item } = props;
+    const { item, isLoading, errMess } = props;
 
-    if (props.isLoading) {
+    const scaleValue = useRef(new Animated.Value(0)).current;
+    const scaleAnimation = Animated.timing(scaleValue, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true
+    });
+
+    useEffect(() => {
+        if (!isLoading) {
+            scaleAnimation.start();
+        }
+    }, [isLoading]);
+
+    if (isLoading) {
         return <Loading />;
     }
 
-    if (props.errMess) {
+    if (errMess) {
         return (
             <View>
                 <Text>{props.errMess}</Text>
@@ -22,14 +35,16 @@ const FeaturedItem = (props) => {
 
     if (item) {
         return (
-            <Card containerStyle={{ padding: 0 }}>
-                <Card.Image source={{ uri: baseUrl + item.image }} >
-                    <View style={{ justifyContent: 'center', flex: 1 }}>
-                        <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>{item.name}</Text>
-                    </View>
-                </Card.Image>
-                <Text style={{ margin: 20 }}>{item.description}</Text>
-            </Card>
+            <Animated.ScrollView style={{ transform: [{ scale: scaleValue }] }}>
+                <Card containerStyle={{ padding: 0 }}>
+                    <Card.Image source={{ uri: baseUrl + item.image }} >
+                        <View style={{ justifyContent: 'center', flex: 1 }}>
+                            <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>{item.name}</Text>
+                        </View>
+                    </Card.Image>
+                    <Text style={{ margin: 20 }}>{item.description}</Text>
+                </Card>
+            </Animated.ScrollView>
         )
     }
     return <View />;
@@ -40,23 +55,14 @@ const HomeScreen = () => {
     const campsites = useSelector((state) => state.campsites);
     const promotions = useSelector((state) => state.promotions);
     const partners = useSelector((state) => state.partners);
-    const scaleValue = useRef(new Animated.Value(0)).current;
-    const scaleAnimation = Animated.timing(scaleValue, {
-        toValue: 1,
-        duration: 1500,
-        useNativeDriver: true
-    });
 
     const featCampsite = campsites.campsitesArray.find((item) => item.featured);
     const featPromotion = promotions.promotionsArray.find((item) => item.featured);
     const featPartner = partners.partnersArray.find((item) => item.featured);
 
-    useEffect(() => {
-        scaleAnimation.start();
-    }, []);
 
     return (
-        <Animated.ScrollView style={{ transform: [{ scale: scaleValue }] }}>
+        <ScrollView>
             <FeaturedItem
                 item={featCampsite}
                 isLoading={campsites.isLoading}
@@ -72,7 +78,7 @@ const HomeScreen = () => {
                 isLoading={partners.isLoading}
                 errMess={partners.errMess}
             />
-        </Animated.ScrollView>
+        </ScrollView>
     )
 }
 
