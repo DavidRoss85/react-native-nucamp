@@ -170,7 +170,7 @@ const RegisterTab = () => {
         // Calling getMediaLibraryPermissionsAsync() returns a value of 'undetermined'.
         // It seems no permissions request is necessary to launch the image libray as seen
         // in the example on https://docs.expo.dev/versions/latest/sdk/imagepicker/#imagepickeroptions .
-        // Tested using Samsung Android Smartphone S22 Ultra.
+        // --Tested using Samsung Android Smartphone S22 Ultra.--
         const capturedImage = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             aspect: [1, 1],
