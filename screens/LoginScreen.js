@@ -158,6 +158,22 @@ const RegisterTab = () => {
         }
     }
 
+    const getImageFromGallery = async()=>{
+        const mediaLibraryPermissions = ImagePicker.getMediaLibraryPermissionsAsync();
+        if (mediaLibraryPermissions.status==='granted'){
+            const capturedImage = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [1,1],
+            });
+            if (capturedImage.assets){
+                console.log('\n\n**GALLERY IMAGE**');
+                console.log((capturedImage.assets[0]));
+                console.log('****\n\n');
+                processImage(capturedImage.assets[0].uri);
+            }
+        }
+    }
+
     const processImage = async (imgUri) => {
         console.log('\n\n**Begin Process Image**')
         console.log('Image URI: ', imgUri,'\n')
@@ -191,6 +207,7 @@ const RegisterTab = () => {
                     style={styles.image}
                 />
                 <Button title='Camera' onPress={getImageFromCamera} />
+                <Button title='Gallery' onPress={getImageFromGallery} />
             </View>
             <View style={styles.container}>
                 <Input
