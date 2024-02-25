@@ -5,6 +5,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '
 import { Icon } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 
 import { fetchPartners } from '../features/partners/partnersSlice';
 import { fetchCampsites } from '../features/campsites/campsitesSlice';
@@ -209,10 +210,16 @@ const LoginNavigator = () => {
             <Stack.Screen
                 name='LoginPage'
                 component={LoginScreen}
-                options={({ navigation }) => ({
+                options={({ navigation, route }) => ({
+                    headerTitle: getFocusedRouteNameFromRoute(route),
                     headerLeft: () => (
                         <Icon
-                            name='sign-in'
+                        name={
+                            getFocusedRouteNameFromRoute(route) ===
+                            'Register'
+                                ? 'user-plus'
+                                : 'sign-in'
+                        }
                             type='font-awesome'
                             iconStyle={styles.stackIcon}
                             onPress={() => navigation.toggleDrawer()}
