@@ -4,10 +4,11 @@ import { CheckBox, Input, Button, Icon } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import { baseUrl } from '../shared/baseUrl';
 import logo from '../assets/images/logo.png';
 
-const LoginTab =( {navigation})=>{
+const LoginTab = ({ navigation }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -18,7 +19,7 @@ const LoginTab =( {navigation})=>{
         console.log('password:', password);
         console.log('remember:', remember);
 
-        if(remember){
+        if (remember) {
             SecureStore.setItemAsync(
                 'userinfo',
                 JSON.stringify({
@@ -26,24 +27,24 @@ const LoginTab =( {navigation})=>{
                     password
                 })
             )
-            .catch((error) => console.log('Could not save user info', error));
-        }else {
+                .catch((error) => console.log('Could not save user info', error));
+        } else {
             SecureStore.deleteItemAsync('userinfo')
-            .catch((error) => console.log('Could not delete user info', error));
+                .catch((error) => console.log('Could not delete user info', error));
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         SecureStore.getItemAsync('userinfo')
-        .then((userdata) => {
-            const userinfo = JSON.parse(userdata);
-            if (userinfo) {
-                setUsername(userinfo.username);
-                setPassword(userinfo.password);
-                setRemember(true);
-            }
-        });
-    },[])
+            .then((userdata) => {
+                const userinfo = JSON.parse(userdata);
+                if (userinfo) {
+                    setUsername(userinfo.username);
+                    setPassword(userinfo.password);
+                    setRemember(true);
+                }
+            });
+    }, [])
     return (
         <View style={styles.container}>
             <Input
@@ -126,7 +127,7 @@ const RegisterTab = () => {
         };
         console.log(JSON.stringify(userInfo));
 
-        if(remember){
+        if (remember) {
             SecureStore.setItemAsync(
                 'userinfo',
                 JSON.stringify({
@@ -134,25 +135,51 @@ const RegisterTab = () => {
                     password
                 })
             )
-            .catch((error) => console.log('Could not save user info', error));
-        }else {
+                .catch((error) => console.log('Could not save user info', error));
+        } else {
             SecureStore.deleteItemAsync('userinfo')
-            .catch((error) => console.log('Could not delete user info', error));
+                .catch((error) => console.log('Could not delete user info', error));
         }
     };
 
     const getImageFromCamera = async () => {
         const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
-        if (cameraPermission.status==='granted'){
+        if (cameraPermission.status === 'granted') {
             const capturedImage = await ImagePicker.launchCameraAsync({
                 allowsEditing: true,
                 aspect: [1, 1]
             });
             if (capturedImage.assets) {
-                console.log(capturedImage.assets[0]);
-                setImageUrl(capturedImage.assets[0].uri);
+                console.log('\n\n**CAPTURED IMAGE**');
+                console.log((capturedImage.assets[0]));
+                console.log('****\n\n');
+                processImage(capturedImage.assets[0].uri);
             }
         }
+    }
+
+    const processImage = async (imgUri) => {
+        console.log('\n\n**Begin Process Image**')
+        console.log('Image URI: ', imgUri,'\n')
+        const processedImage = await ImageManipulator.manipulateAsync(
+            imgUri,
+            [
+                {
+                    resize:{
+                        height: 400,
+                        width: 400
+                    }
+                },
+            ],
+            {
+                compress: 1,
+                format: ImageManipulator.SaveFormat.PNG
+            }
+        );
+        console.log('\n\n**PROCESSED IMAGE**');
+        console.log(processedImage);
+        console.log('****\n\n')
+        setImageUrl(processedImage.uri);
     }
 
     return (
@@ -205,7 +232,7 @@ const RegisterTab = () => {
                     value={email}
                     containerStyle={styles.formInput}
                     leftIconContainerStyle={styles.formIcon}
-                />                    
+                />
                 <CheckBox
                     title='Remember Me'
                     center
@@ -214,20 +241,20 @@ const RegisterTab = () => {
                     containerStyle={styles.formCheckbox}
                 />
                 <View style={styles.formButton}>
-                <Button
-                    onPress={() => handleRegister()}
-                    title='Register'
-                    color='#5637DD'
-                    icon={
-                        <Icon
-                            name='user-plus'
-                            type='font-awesome'
-                            color='#fff'
-                            iconStyle={{ marginRight: 10 }}
-                        />
-                    }
-                    buttonStyle={{ backgroundColor: '#5637DD' }}
-                />                    
+                    <Button
+                        onPress={() => handleRegister()}
+                        title='Register'
+                        color='#5637DD'
+                        icon={
+                            <Icon
+                                name='user-plus'
+                                type='font-awesome'
+                                color='#fff'
+                                iconStyle={{ marginRight: 10 }}
+                            />
+                        }
+                        buttonStyle={{ backgroundColor: '#5637DD' }}
+                    />
                 </View>
             </View>
 
