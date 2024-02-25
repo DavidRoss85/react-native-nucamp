@@ -158,30 +158,37 @@ const RegisterTab = () => {
         }
     }
 
-    const getImageFromGallery = async()=>{
-        const mediaLibraryPermissions = ImagePicker.getMediaLibraryPermissionsAsync();
-        if (mediaLibraryPermissions.status==='granted'){
-            const capturedImage = await ImagePicker.launchImageLibraryAsync({
-                allowsEditing: true,
-                aspect: [1,1],
-            });
-            if (capturedImage.assets){
-                console.log('\n\n**GALLERY IMAGE**');
-                console.log((capturedImage.assets[0]));
-                console.log('****\n\n');
-                processImage(capturedImage.assets[0].uri);
-            }
+    const getImageFromGallery = async () => {
+        console.log('\n\n**GET IMAGE FROM GALLERY**\n')
+        // const mediaLibraryPermissions = await ImagePicker.getMediaLibraryPermissionsAsync();
+        // console.log('PERMISSIONS: ', mediaLibraryPermissions.status)
+        // if (mediaLibraryPermissions.status === 'granted') {
+        // }
+
+        // Calling getMediaLibraryPermissionsAsync() returns a value of 'undetermined'.
+        // It seems no permissions request is necessary to launch the image libray as seen
+        // in the example on https://docs.expo.dev/versions/latest/sdk/imagepicker/#imagepickeroptions .
+        // Tested using Samsung Android Smartphone S22 Ultra.
+        const capturedImage = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [1, 1],
+        });
+        if (capturedImage.assets) {
+            console.log('\n\n**GALLERY IMAGE**');
+            console.log((capturedImage.assets[0]));
+            console.log('****\n\n');
+            processImage(capturedImage.assets[0].uri);
         }
     }
 
     const processImage = async (imgUri) => {
         console.log('\n\n**Begin Process Image**')
-        console.log('Image URI: ', imgUri,'\n')
+        console.log('Image URI: ', imgUri, '\n')
         const processedImage = await ImageManipulator.manipulateAsync(
             imgUri,
             [
                 {
-                    resize:{
+                    resize: {
                         height: 400,
                         width: 400
                     }
