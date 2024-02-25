@@ -5,6 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
+import * as MediaLibrary from 'expo-media-library';
 import { baseUrl } from '../shared/baseUrl';
 import logo from '../assets/images/logo.png';
 
@@ -154,6 +155,7 @@ const RegisterTab = () => {
                 console.log((capturedImage.assets[0]));
                 console.log('****\n\n');
                 processImage(capturedImage.assets[0].uri);
+                MediaLibrary.saveToLibraryAsync(capturedImage.assets[0].uri) // Save to Library
             }
         }
     }
